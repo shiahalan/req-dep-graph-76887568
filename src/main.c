@@ -5,11 +5,11 @@
 
 
 int main(){
-	printf("Generating SRS-Dependency-Graph.txt");
+	printf("Generating SRS-Dependency-Graph.txt\n");
 	// If-else, if failed say something and exit
 	//
-	printf ("Generating SRS-Report.txt");
+	printf ("Generating SRS-Report.txt\n");
 	// If-else, if failed say somethign and exit
-	readfile("SRS-Dependency-Graph.txt");
-	readfile("SRS-Report.txt");
+	readFile("SRS-Dependency-Graph.txt");
+	readFile("SRS.md");
 }

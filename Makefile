@@ -4,7 +4,7 @@ SDIR = ./src
 BIN = srs.exe
 
 all:
-	$(CC) $(SDIR)/main.c -o $(BIN)
+	$(CC) $(SDIR)/main.c $(SDIR)/graphParser.c $(SDIR)/reportParser.c $(SDIR)/txtReader.c -o $(BIN)
 
 
 clean:
