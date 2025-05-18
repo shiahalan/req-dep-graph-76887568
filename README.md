@@ -2,6 +2,16 @@
 ## Project 2: SRS Dependency Graph Generator
 ### Alan Shiah
 
+## Modules
+graphParser.h
+- Parses given SRS.md file and creates a dependency graph that is then output to SRS-Dependency-Graph.txt
+
+reportParser.h
+- Parses given SRS.md file and creates a summary of every dependency that is then output to SRS-Report.txt
+
+txtReader.h
+- Given file name, will output every line of file to terminal
+
 ## AI Usage
 GitHub CoPilot and/or ChatGPT was used in the following ways:
 - Clarification for certain parts of the assignment
