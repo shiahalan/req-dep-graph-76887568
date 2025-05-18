@@ -4,7 +4,7 @@
 void readFile(char* f) {
 	FILE *file = fopen(f, "r");
 	if (file == NULL) {
-		printf("File not found...");
+		printf("File not found...\n");
 		return;
 	}
 
