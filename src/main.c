@@ -7,10 +7,17 @@
 int main(){
 	char fileName[256];
 	printf("\nEnter name of SRS markdown file: ");
+	// fgets reads before printing, so we need to flush stdout
 	fflush(stdout);
 	fgets(fileName, sizeof(fileName), stdin);
 
+	// Check if the file exists
 	if (generateDependency(fileName) == 1) {
+		printf("File not found... Exiting...\n\n");
+		return 1;
+	}
+
+	if (parseReport(fileName) == 1) {
 		printf("File not found... Exiting...\n\n");
 		return 1;
 	}
@@ -25,6 +32,7 @@ int main(){
 	fgets(tmp, sizeof(tmp), stdin);
 	printf("\n\n");
 
+	// Output generated files to terminal
 	readFile("SRS-Dependency-Graph.txt");
 
 	printf("\nPress enter to view SRS report in terminal: ");

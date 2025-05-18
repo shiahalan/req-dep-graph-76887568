@@ -9,4 +9,5 @@ GitHub CoPilot and/or ChatGPT was used in the following ways:
 - How to parse text files
 - Examples of parsing text files
 - How to strip line buffers from fget
-- Autocomplete code feature for effiency
+- Autocomplete code feature for efficiency
+- Autocomplete comments for efficiency
