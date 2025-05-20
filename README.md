@@ -2,6 +2,10 @@
 ## Project 2: SRS Dependency Graph Generator
 ### Alan Shiah
 
+## Usage
+In order to build the project, run the command 'make' in the root directory. To run the file, use the command
+'make run' in the root directory. Finally, to remove the file, use the command 'make clean'.
+
 ## Modules
 graphParser.h
 - Parses given SRS.md file and creates a dependency graph that is then output to SRS-Dependency-Graph.txt

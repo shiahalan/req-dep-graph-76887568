@@ -1,14 +1,14 @@
 CC = gcc
 IDIR = ./include
 SDIR = ./src
-BIN = srs.exe
+BIN = rdgg-76887568.exe
 
 all:
 	$(CC) $(SDIR)/main.c $(SDIR)/graphParser.c $(SDIR)/reportParser.c $(SDIR)/txtReader.c -o $(BIN)
 
 
 clean:
-	rm -f srs.exe
+	rm -f $(BIN)
 
 
 run:

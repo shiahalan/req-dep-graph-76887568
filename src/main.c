@@ -23,7 +23,7 @@ int main(){
 	}
 
 	printf("\n- Generating SRS-Dependency-Graph.txt file...\n");
-	printf ("- Generating SRS-Report.txt file...\n");
+	printf ("- Generating rdgg-report-76887568.md file...\n");
 	fflush(stdout);
 	
 	char tmp[256];
@@ -40,5 +40,5 @@ int main(){
 	fgets(tmp, sizeof(tmp), stdin);
 	printf("\n\n");
 
-	readFile("SRS-Report.txt");
+	readFile("rdgg-report-76887568.md");
 }
