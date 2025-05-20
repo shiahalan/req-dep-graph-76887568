@@ -9,7 +9,7 @@ int parseReport(char* f) {
     FILE *inputFile = fopen(f, "r");
     if (inputFile == NULL)
         return 1;
-    FILE *outputFile = fopen("SRS-Report.txt", "w");
+    FILE *outputFile = fopen("rdgg-report-76887568.md", "w");
     if (outputFile == NULL) {
         fclose(inputFile);
         return 1;
