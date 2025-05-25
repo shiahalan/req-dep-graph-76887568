@@ -15,42 +15,108 @@ int parseReport(char* f) {
         return 1;
     }
 
-    fprintf(outputFile, "Dependency Report\n\n");
-
     // Searches for ### indicating beginning of a module
-    char module[256];
-    while (fgets(module, sizeof(module), inputFile) != NULL) {
-        if (module[0] != '#' || module[1] != '#' || module[2] != '#')
+    int lineNum = 0;
+    char lineBuf[512];
+    while (fgets(lineBuf, sizeof(lineBuf), inputFile) != NULL) {
+        lineNum++;
+        if (lineBuf[0] == '#' && lineBuf[1] == ' ') {
+            for (int i = 0; i < 3; i++) {
+                fprintf(outputFile, "%s", lineBuf);
+                lineNum++;
+                if (fgets(lineBuf, sizeof(lineBuf), inputFile) == NULL) {
+                    break;
+                }
+            }
+            fprintf(outputFile, "%s", "\n");
             continue;
+        }
 
-        char *strip;
+        if (strstr(lineBuf, "ID: REQ") != NULL) {
+            char *reqPtr = strstr(lineBuf, "REQ");
+            char reqName[512];
+            if (reqPtr != NULL) {
+                strncpy(reqName, reqPtr, sizeof(reqName) - 1);
+                reqName[sizeof(reqName) - 1] = '\0';
+                reqName[strcspn(reqName, "\n")] = '\0';
+            }
 
-        char tmp[256];
-        char desc[256];
-        char dep[256];
+            fprintf(outputFile, "%s", "Line ");
+            fprintf(outputFile, "%d: ", lineNum);
+            fprintf(outputFile, "%s", reqName);
+            fprintf(outputFile, "%s\n", " --");
 
-        module[strcspn(module, "\n")] = 0;
+            char parents[512];
+            while(fgets(parents, sizeof(parents), inputFile) != NULL) {
+                lineNum++;
+                if (strstr(parents, "Parent") != NULL) {
+                    break;
+                }
+            }
 
-        fgets(tmp, sizeof(tmp), inputFile);
-        fgets(desc, sizeof(desc), inputFile);
-        fgets(dep, sizeof(dep), inputFile);
-        
-        fprintf(outputFile, "Module Name: ");
-        strip = module + 7;
-        fprintf(outputFile, "%s", strip);
-        fprintf(outputFile, "\n");
-    
-        fprintf(outputFile, "Description: ");
-        strip = desc + 15;
-        fprintf(outputFile, "%s", strip);
+            char *strip = strchr(parents, ':');
+            if (strip != NULL) {
+                strip++;
+                while (*strip == ' ' || *strip == '\t') {
+                    strip++;
+                }
+                if (*strip != '-' && *strip != '\n') {
+                    char buf[512];
+                    strncpy(buf, strip, sizeof(buf));
+                    buf[sizeof(buf) - 1] = '\0';
 
-        fprintf(outputFile, "Dependencies: ");
-        strip = dep + 14;
-        fprintf(outputFile, "%s", strip);
+                    char *token = strtok(buf, ",");
+                    while (token != NULL) {
+                        while (*token == ' ' || *token == '\t') {
+                            token++;
+                        }
+                        token[strcspn(token, "\n")] = '\0';
+                        fprintf(outputFile, "%s", "Line ");
+                        fprintf(outputFile, "%d: ", lineNum);
+                        token[strcspn(token, "\n")] = '\0';
+                        fprintf(outputFile, "%s", token);
+                        fprintf(outputFile, " -> %s\n", reqName);
+                        token = strtok(NULL, ",");
+                    }
+                }
+            }
 
-        fprintf(outputFile, "\n\n");
+            char children[512];
+            while(fgets(children, sizeof(children), inputFile) != NULL) {
+                lineNum++;
+                if (strstr(children, "Children") != NULL) {
+                    break;
+                }
+            }
+
+            strip = strchr(children, ':');
+            if (strip != NULL) {
+                strip++;
+                while (*strip == ' ' || *strip == '\t') {
+                    strip++;
+                }
+                if (*strip != '-' && *strip != '\n') {
+                    char buf[512];
+                    strncpy(buf, strip, sizeof(buf));
+                    buf[sizeof(buf) - 1] = '\0';
+
+                    char *token = strtok(buf, ",");
+                    while (token != NULL) {
+                        while (*token == ' ' || *token == '\t') {
+                            token++;
+                        }
+                        token[strcspn(token, "\n")] = '\0';
+                        fprintf(outputFile, "%s", "Line ");
+                        fprintf(outputFile, "%d: ", lineNum);
+                        fprintf(outputFile, "%s -> ", reqName);
+                        token[strcspn(token, "\n")] = '\0';
+                        fprintf(outputFile, "%s\n", token);
+                        token = strtok(NULL, ",");
+                    }
+                }
+            }
+        }
     }
-    
     fclose(inputFile);
     fclose(outputFile);
     return 0;
