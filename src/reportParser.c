@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/reportParser.h"
+#include "../include/requirementList.h"
+
 
 int parseReport(char* f) {
     // Remove newline character from the string
@@ -41,6 +43,8 @@ int parseReport(char* f) {
                 reqName[strcspn(reqName, "\n")] = '\0';
             }
 
+            Requirement *req = addRequirement(reqName);
+
             fprintf(outputFile, "%s", "Line ");
             fprintf(outputFile, "%d: ", lineNum);
             fprintf(outputFile, "%s", reqName);
@@ -71,6 +75,10 @@ int parseReport(char* f) {
                             token++;
                         }
                         token[strcspn(token, "\n")] = '\0';
+                        
+                        Requirement *parentReq = addRequirement(token);
+                        addDependency(parentReq, req);
+
                         fprintf(outputFile, "%s", "Line ");
                         fprintf(outputFile, "%d: ", lineNum);
                         token[strcspn(token, "\n")] = '\0';
@@ -106,6 +114,10 @@ int parseReport(char* f) {
                             token++;
                         }
                         token[strcspn(token, "\n")] = '\0';
+
+                        Requirement *childReq = addRequirement(token);
+                        addDependency(req, childReq);
+
                         fprintf(outputFile, "%s", "Line ");
                         fprintf(outputFile, "%d: ", lineNum);
                         fprintf(outputFile, "%s -> ", reqName);
@@ -119,5 +131,7 @@ int parseReport(char* f) {
     }
     fclose(inputFile);
     fclose(outputFile);
+
+    freeAllRequirements();
     return 0;
 }

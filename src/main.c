@@ -2,6 +2,7 @@
 #include "../include/txtReader.h"
 #include "../include/graphParser.h"
 #include "../include/reportParser.h"
+#include "../include/requirementList.h"
 
 
 int main(){
@@ -22,6 +23,8 @@ int main(){
 		return 1;
 	}
 
+	printf("\nFirst three lines of given file:\n");
+	threeLines(fileName);
 	printf("\n- Generating SRS-Dependency-Graph.txt file...\n");
 	printf ("- Generating rdgg-report-76887568.md file...\n");
 	fflush(stdout);

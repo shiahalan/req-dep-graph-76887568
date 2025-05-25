@@ -25,3 +25,5 @@ GitHub CoPilot and/or ChatGPT was used in the following ways:
 - How to strip line buffers from fget
 - Autocomplete code feature for efficiency
 - Autocomplete comments for efficiency
+- Helped create data structure
+- Explained memory allocation and free
